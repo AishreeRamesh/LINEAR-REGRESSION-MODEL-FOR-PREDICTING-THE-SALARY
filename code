@@ -1,0 +1,27 @@
+import pandas as pd
+from matplotlib import pyplot as plt
+%matplotlib inline 
+df=pd.read_csv("Salary_Data.csv") 
+print(df)
+df.isnull().sum()df.describe()
+x=df.iloc[:,:-1].values 
+y=df.iloc[:,1].values
+from sklearn.model_selection import train_test_split 
+x_train,x_test,y_train,y_test=train_test_split(x,y,test_size=0.2,random_state=0) 
+from sklearn.linear_model import LinearRegression
+lm=LinearRegression() 
+lm.fit(x_train,y_train)
+y_pred=lm.predict(x_test)
+print("The predicted output is", y_pred) 
+plt.scatter(x_test,y_test,c="r") 
+plt.plot(x_test,y_pred)
+plt.title("Salary Prediction")
+plt.xlabel("Years of Experience") 
+plt.ylabel("salary")
+plt.show()
+from sklearn import matrics 
+MSE=metrics.mean_squared_error(y_test,y_pred) 
+print("MSE is",MSE)
+r2 = metrics.r2_score(y_test, y_pred) 
+print("R Squared Error is", r2)
+print("Salary for given Years of Experience is ", lm.predict([[30]]))
